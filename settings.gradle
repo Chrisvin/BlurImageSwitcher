@@ -1,2 +1,3 @@
+include ':BlurImageSwitcher'
 include ':app'
 rootProject.name = "BlurImageSwitcherDemo"
