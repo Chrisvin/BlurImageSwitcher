@@ -39,10 +39,10 @@ class BlurAnimation constructor(
         }
         val scaleFactor = if (stopValue - startValue > 0) {
             // Scale out
-            1f + interpolatedTime * 0.1f
+            1f + interpolatedTime * 0.2f
         } else {
             // Scale in
-            1.1f - interpolatedTime * 0.1f
+            1.2f - interpolatedTime * 0.2f
         }
         imageView.scaleX = scaleFactor
         imageView.scaleY = scaleFactor
