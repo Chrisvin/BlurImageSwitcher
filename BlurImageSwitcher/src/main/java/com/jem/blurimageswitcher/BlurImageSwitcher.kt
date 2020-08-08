@@ -8,8 +8,18 @@ import androidx.core.graphics.drawable.toBitmap
 
 
 class BlurImageSwitcher : ImageSwitcher {
-    constructor(context: Context?) : super(context)
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context?) : super(context) {
+        initFallbackAnimations()
+    }
+
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
+        initFallbackAnimations()
+    }
+
+    private fun initFallbackAnimations() {
+        setInAnimation(context, R.anim.scale_fade_in)
+        setOutAnimation(context, R.anim.scale_fade_out)
+    }
 
     override fun showNext() {
         val nextImageView = nextView as ImageView?
