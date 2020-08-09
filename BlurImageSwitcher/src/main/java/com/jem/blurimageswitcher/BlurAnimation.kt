@@ -1,6 +1,7 @@
 package com.jem.blurimageswitcher
 
 import android.graphics.Bitmap
+import android.util.Log
 import android.view.animation.Animation
 import android.view.animation.Transformation
 import android.widget.ImageView
@@ -8,6 +9,7 @@ import android.widget.ImageView
 class BlurAnimation constructor(
     private val imageView: ImageView,
     private val bitmap: Bitmap,
+    private val scale: Float,
     private val startValue: Float,
     private val endValue: Float
 ) : Animation() {
@@ -38,10 +40,10 @@ class BlurAnimation constructor(
         }
         val scaleFactor = if (endValue - startValue > 0) {
             // Scale out
-            1f + interpolatedTime * 0.2f
+            1f + interpolatedTime * (1f - scale)
         } else {
             // Scale in
-            1.2f - interpolatedTime * 0.2f
+            scale - interpolatedTime * (1f - scale)
         }
         imageView.scaleX = scaleFactor
         imageView.scaleY = scaleFactor
