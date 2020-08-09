@@ -56,7 +56,7 @@ For bugs, questions and discussions please use the [Github Issues](https://githu
 ```
 MIT License
 
-Copyright (c) 2019 Jem
+Copyright (c) 2020 Chrisvin Jem
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
