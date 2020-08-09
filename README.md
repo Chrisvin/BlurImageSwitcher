@@ -3,11 +3,11 @@ Android Blurred ImageSwitcher Library
 
  [![License: MIT](https://img.shields.io/badge/License-MIT-silver.svg)](https://opensource.org/licenses/MIT) [![](https://jitpack.io/v/Chrisvin/BlurImageSwitcher.svg)](https://jitpack.io/#Chrisvin/BlurImageSwitcher) [![API](https://img.shields.io/badge/API-21%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=21) 
 
-BlurImageSwitcher is a lightweight ImageSwitcher library to switch images with a blur animation.
-
 <p align="center">
 	<img src="./screenrecording/demo_app.gif" width="33%"/>
 </p>
+
+BlurImageSwitcher is a lightweight ImageSwitcher library to switch images with a blur animation.
 
 ## Demo app
 To run the demo project, clone the repository and run it via Android Studio. 
