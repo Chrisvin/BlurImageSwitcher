@@ -8,12 +8,11 @@ import android.widget.ImageView
 class BlurAnimation constructor(
     private val imageView: ImageView,
     private val bitmap: Bitmap,
-    startValue: Int,
-    stopValue: Int
+    private val startValue: Float,
+    private val endValue: Float
 ) : Animation() {
-    private val startValue: Float = startValue.toFloat()
-    private val stopValue: Float = stopValue.toFloat()
-    private val difValue: Float = stopValue - startValue.toFloat()
+
+    private val difValue: Float = endValue - startValue
 
     override fun applyTransformation(
         interpolatedTime: Float,
@@ -30,14 +29,14 @@ class BlurAnimation constructor(
             imageView.setImageBitmap(blurred)
         }
         // Stop value being greater than start value indicates that it's a view going out animation
-        imageView.alpha = if (stopValue - startValue > 0) {
+        imageView.alpha = if (endValue - startValue > 0) {
             // Fade out
             1f - interpolatedTime
         } else {
             // Fade in
             interpolatedTime
         }
-        val scaleFactor = if (stopValue - startValue > 0) {
+        val scaleFactor = if (endValue - startValue > 0) {
             // Scale out
             1f + interpolatedTime * 0.2f
         } else {
