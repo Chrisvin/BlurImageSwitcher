@@ -9,6 +9,7 @@ import androidx.core.graphics.drawable.toBitmap
 
 class BlurImageSwitcher : ImageSwitcher {
 
+    var scaleFactor = DEFAULT_SCALE_FACTOR
     var blurFactor = DEFAULT_BLUR_FACTOR
     var animationDuration = DEFAULT_ANIMATION_DURATION
 
@@ -17,6 +18,27 @@ class BlurImageSwitcher : ImageSwitcher {
     }
 
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
+        initAttributes(attrs)
+    }
+
+    private fun initAttributes(attrs: AttributeSet?) {
+        context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.BlurImageSwitcher,
+            0, 0
+        ).apply {
+            try {
+                animationDuration = getInt(
+                    R.styleable.BlurImageSwitcher_animationDuration,
+                    DEFAULT_ANIMATION_DURATION.toInt()
+                ).toLong()
+                blurFactor = getFloat(R.styleable.BlurImageSwitcher_blurFactor, DEFAULT_BLUR_FACTOR)
+                scaleFactor =
+                    getFloat(R.styleable.BlurImageSwitcher_scaleFactor, DEFAULT_SCALE_FACTOR)
+            } finally {
+                recycle()
+            }
+        }
         initFallbackAnimations()
     }
 
@@ -30,7 +52,8 @@ class BlurImageSwitcher : ImageSwitcher {
         val nextImageView = nextView as ImageView?
         val nextDrawable = nextImageView?.drawable?.toBitmap()
         if (nextImageView != null && nextDrawable != null) {
-            val inBlurAnimation = BlurAnimation(nextImageView, nextDrawable, blurFactor, 0f)
+            val inBlurAnimation =
+                BlurAnimation(nextImageView, nextDrawable, scaleFactor, blurFactor, 0f)
             inBlurAnimation.duration = animationDuration
             inAnimation = inBlurAnimation
         }
@@ -38,7 +61,8 @@ class BlurImageSwitcher : ImageSwitcher {
         val currentImageView = currentView as ImageView?
         val currentDrawable = currentImageView?.drawable?.toBitmap()
         if (currentImageView != null && currentDrawable != null) {
-            val outBlurAnimation = BlurAnimation(currentImageView, currentDrawable, 0f, blurFactor)
+            val outBlurAnimation =
+                BlurAnimation(currentImageView, currentDrawable, scaleFactor, 0f, blurFactor)
             outBlurAnimation.duration = animationDuration
             outAnimation = outBlurAnimation
         }
@@ -49,5 +73,6 @@ class BlurImageSwitcher : ImageSwitcher {
     companion object {
         const val DEFAULT_BLUR_FACTOR = 100F
         const val DEFAULT_ANIMATION_DURATION = 400L
+        const val DEFAULT_SCALE_FACTOR = 1.2f
     }
 }
