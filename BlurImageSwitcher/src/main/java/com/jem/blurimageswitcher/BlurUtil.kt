@@ -10,6 +10,12 @@ import android.renderscript.ScriptIntrinsicBlur
 
 object BlurUtil {
 
+    private var renderScript: RenderScript? = null
+
+    fun initializeRenderScript(context: Context) {
+        renderScript = RenderScript.create(context.applicationContext)
+    }
+
     fun scaledBitmapBlur(bitmap: Bitmap, factor: Int): Bitmap {
         return if (factor <= 0 || bitmap.width / factor <= 0 || bitmap.height / factor <= 0) {
 //            Bitmap.createBitmap(
@@ -28,11 +34,35 @@ object BlurUtil {
         }
     }
 
-    fun renderscriptBlur(context: Context, bitmap: Bitmap, factor: Int): Bitmap {
-        return if (factor <=0) {
+    fun renderscriptBlur(bitmap: Bitmap, factor: Float): Bitmap {
+        return if (renderScript == null || factor <= 0) {
             bitmap
         } else {
-            TODO("Handle renderscript blur handling")
+            var input: Allocation? = null
+            var output: Allocation? = null
+            var blurScript: ScriptIntrinsicBlur? = null
+            try {
+                input = Allocation.createFromBitmap(
+                    renderScript,
+                    bitmap,
+                    Allocation.MipmapControl.MIPMAP_NONE,
+                    Allocation.USAGE_GRAPHICS_TEXTURE
+                )
+                output = Allocation.createTyped(renderScript, input.type)
+                blurScript = ScriptIntrinsicBlur.create(renderScript, Element.U8_4(renderScript))
+                blurScript.setRadius(factor.coerceAtMost(25f))
+                blurScript.setInput(input)
+                blurScript.forEach(output)
+                output.copyTo(bitmap)
+            } finally {
+                input?.destroy()
+                output?.destroy()
+                blurScript?.destroy()
+            }
+            return bitmap
+        }
+    }
+
         }
     }
 }
